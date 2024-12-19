@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jork</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Permanent Marker', cursive; /* Use the Permanent Marker font */
+            text-align: center;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Full height of the viewport */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative; /* Allows absolutely positioned elements */
+        }
+        .container {
+            padding: 20px;
+            max-width: 600px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative; /* Ensure it can be positioned */
+        }
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            transition: opacity 0.5s ease; /* Transition for fading out */
+        }
+        p {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            color: #555;
+            transition: opacity 0.5s ease; /* Transition for fading out */
+        }
+        .buttons {
+            margin: 30px 0;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .yes-button {
+            background-color: #28a745;
+            color: white;
+        }
+        .yes-button:hover {
+            background-color: #218838;
+        }
+        .no-button {
+            background-color: #dc3545;
+            color: white;
+            position: relative; /* Allows the button to move anywhere on the screen */
+        }
+        .no-button:hover {
+            background-color: #c82333;
+        }
+        .message {
+            display: none; /* Hidden by default */
+            font-size: 1.5rem;
+            color: #dc3545; /* Color for the messages */
+            position: absolute; /* Allows positioning of messages */
+            text-align: center; /* Center text alignment */
+        }
+        .final-message {
+            font-size: 1.8rem;
+            color: #28a745; /* Green color for final message */
+            display: none; /* Hidden by default */
+            position: absolute; /* Position absolute for free movement */
+        }
+        .chat-message {
+            font-size: 1.8rem;
+            color: #28a745; /* Green color for chat message */
+            display: none; /* Hidden by default */
+            position: absolute; /* Position absolute for free movement */
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="confession-container">
+        <h1 id="confession-text">Crush kita</h1>
+        <p>MADE WITH GITHUB:)</p>
+        <div class="buttons">
+            <button class="yes-button" onclick="showYesResponse()">Yes</button>
+            <button class="no-button" id="no-button" onclick="handleNoResponse()">No</button>
+        </div>
+    </div>
+
+    <!-- Message Divs -->
+    <div class="message" id="message-box"></div>
+    <div class="final-message" id="final-message">Click yes</div>
+
+    <script>
+        const messages = [
+            "Why?",
+            "That's not gonna work.",
+            "Why do you keep trying?",
+            "Stop, just click yes."
+        ];
+        let messageIndex = 0; // To track which message to show next
+        let noClickCount = 0; // To track the number of "No" clicks
+
+        function showYesResponse() {
+            // Hide confession container
+            document.getElementById('confession-container').style.display = 'none';
+            alert("MADE BY YULO");
+        }
+
+        function handleNoResponse() {
+            const confessionText = document.getElementById('confession-text');
+            // Fade out confession text
+            confessionText.style.opacity = '0';
+            setTimeout(() => {
+                confessionText.style.display = 'none'; // Hide the text after fading out
+            }, 500); // Match the duration of the transition
+
+            // Randomly reposition the button
+            const noButton = document.getElementById('no-button');
+            noButton.style.display = 'none'; // Hide the button
+            setTimeout(() => {
+                const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+                const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+                noButton.style.left = `${x}px`;
+                noButton.style.top = `${y}px`;
+                noButton.style.position = 'absolute'; // Set position to absolute
+                noButton.style.display = 'block'; // Show the button again
+            }, 100); // Show again after 100 milliseconds
+
+            // Show one message
+            showMessage();
+
+            // Increment the click count
+            noClickCount++;
+
+            // Hide the no button after 5 clicks
+            if (noClickCount >= 5) {
+                noButton.style.display = 'none'; // Remove the button after 5 clicks
+                showFinalMessage(); // Show final message
+            }
+        }
+
+        function showMessage() {
+            const messageBox = document.getElementById('message-box');
+            if (messageIndex < messages.length) {
+                messageBox.innerText = messages[messageIndex];
+                messageBox.style.display = 'block'; // Show message box
+
+                // Position the message at a random location
+                const x = Math.random() * (window.innerWidth - 200); // Random X position
+                const y = Math.random() * (window.innerHeight - 100); // Random Y position
+                messageBox.style.position = 'absolute'; // Set position to absolute
+                messageBox.style.left = `${x}px`;
+                messageBox.style.top = `${y}px`;
+
+                messageIndex++; // Increment index for the next message
+            } else {
+                messageBox.innerText = ""; // Clear message if all have been shown
+            }
+        }
+
+        function showFinalMessage() {
+            const finalMessage = document.getElementById('final-message');
+            finalMessage.style.display = 'block'; // Show final message
+
+            // Position the final message at a random location
+            const x = Math.random() * (window.innerWidth - 200); // Random X position
+            const y = Math.random() * (window.innerHeight - 100); // Random Y position
+            finalMessage.style.position = 'absolute'; // Set position to absolute
+            finalMessage.style.left = `${x}px`;
+            finalMessage.style.top = `${y}px`;
+        }
+    </script>
+</body>
+</html>
